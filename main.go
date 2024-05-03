@@ -14,4 +14,10 @@ func main() {
 
 	guela.Feed()
 	fmt.Println("Animal fed, current happiness:", guela.Happiness)
+
+	enclosure.AttractVisitors()
+	fmt.Printf("Enclosure attracted %d visitors\n", enclosure.Visitors)
+
+	revenue := enclosure.CalculateRevenue()
+	fmt.Printf("Revenue generated from visitors: $%d\n", revenue)
 }

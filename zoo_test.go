@@ -54,3 +54,34 @@ func TestFeed(t *testing.T) {
 		t.Errorf("Expected animal's happiness to be 60 after feeding, got %d", animal.Happiness)
 	}
 }
+
+func TestAttractVisitors(t *testing.T) {
+	enclosure := NewEnclosure("Lion", true)
+
+	// Test with well-maintained enclosure and happy animals
+	animal := NewAnimal("Guela", "Lion", 80)
+	enclosure.AddAnimal(animal)
+
+	enclosure.AttractVisitors()
+	if enclosure.Visitors != 10 {
+		t.Errorf("Expected 10 visitors, got %d", enclosure.Visitors)
+	}
+
+	// Test with poorly-maintained enclosure
+	enclosure.WellMaintained = false
+
+	enclosure.AttractVisitors()
+	if enclosure.Visitors != 0 {
+		t.Errorf("Expected 0 visitors for poorly-maintained enclosure, got %d", enclosure.Visitors)
+	}
+}
+
+func TestCalculateRevenue(t *testing.T) {
+	enclosure := NewEnclosure("Lion", true)
+	enclosure.Visitors = 10 // Assume 10 visitors attracted
+
+	revenue := enclosure.CalculateRevenue()
+	if revenue != 50 { // Assuming $5 per visitor
+		t.Errorf("Expected revenue of $50, got $%d", revenue)
+	}
+}

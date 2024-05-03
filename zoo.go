@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Animal struct {
 	Name      string
@@ -12,6 +14,7 @@ type Enclosure struct {
 	AnimalSpecies  string
 	Animals        []*Animal
 	WellMaintained bool
+	Visitors       int
 }
 
 func NewAnimal(name, species string, happiness int) *Animal {
@@ -34,7 +37,7 @@ func (a *Animal) String() string {
 }
 
 func (e *Enclosure) String() string {
-	return fmt.Sprintf("AnimalSpecies: %s, Animals: %v, WellMaintained: %t", e.AnimalSpecies, e.Animals, e.WellMaintained)
+	return fmt.Sprintf("AnimalSpecies: %s, Animals: %v, WellMaintained: %t, Visitors: %d", e.AnimalSpecies, e.Animals, e.WellMaintained, e.Visitors)
 }
 
 func (e *Enclosure) AddAnimal(animal *Animal) {
@@ -45,4 +48,27 @@ func (e *Enclosure) AddAnimal(animal *Animal) {
 
 func (a *Animal) Feed() {
 	a.Happiness += 10
+}
+
+func (e *Enclosure) AttractVisitors() {
+	if e.WellMaintained && e.calculateAverageHappiness() >= 50 {
+		e.Visitors = 10
+	} else {
+		e.Visitors = 0
+	}
+}
+
+func (e *Enclosure) calculateAverageHappiness() int {
+	if len(e.Animals) == 0 {
+		return 0
+	}
+	totalHappiness := 0
+	for _, animal := range e.Animals {
+		totalHappiness += animal.Happiness
+	}
+	return totalHappiness / len(e.Animals)
+}
+
+func (e *Enclosure) CalculateRevenue() int {
+	return e.Visitors * 5
 }
